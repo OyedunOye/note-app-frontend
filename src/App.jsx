@@ -1,14 +1,30 @@
-import './App.css'
+import './index.css'
+import { Routes, Route } from "react-router-dom";
+import { LandingPage, LogInPage, NoteReader, SignUpPage } from './pages'
 
 function App() {
 
   return (
-    <div className='flex flex-col items-start border-4 gap-6'>
-      <h1 className='text-3xl underline'>Hi there!</h1>
-      <p className='text-red-600 uppercase'>Shadey here</p>
-      
-    </div>
+
+    <main className='min-h-screen'>
+      <Routes>
+        <Route path='/' element = {<LandingPage />}/>
+        <Route path='/login' element = {<LogInPage />}/>
+        <Route path='/register' element = {<SignUpPage />}/>
+        <Route path='/note' element = {<NoteReader />} />
+      </Routes>
+    </main>
+
   )
 }
 
 export default App
+
+// {/* <div className='flex flex-col w-full h-full'> */}
+// <div className='mx-auto'>
+// {/* <SignUpPage /> */}
+// </div>
+
+// <div className='mx-auto'>
+// <LogInPage />
+// </div>
