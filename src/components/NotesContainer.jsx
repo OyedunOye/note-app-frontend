@@ -5,7 +5,7 @@ const NotesContainer = () => {
   // const [expandedNote, setExpandedNote] = useState(false);
 
   return (
-    <div className="flex space-x-3 mx-3 w-auto border">
+    <div className="flex mx-auto content-center justify-center">
       <NoteCard />
       {/* {expandedNote && (
         <div>

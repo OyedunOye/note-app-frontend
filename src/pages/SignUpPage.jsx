@@ -12,10 +12,10 @@ const SignUpPage = () => {
       <div className='flex items-start justify-center w-20 py-6'>
         <img src={logo} alt="logo" width={60} height={30} />
       </div>
-      <div className=' w-10/12'>
-          <div className='w-full py-8 px-12 flex flex-col'>
-            <h1 className='text-3xl mb-4'>Hello, and Welcome!</h1>
-            <h2 className='text-2xl mb-10'>Register</h2>
+      <div className=' w-10/12 sm:items-center sm:justify-center'>
+          <div className='w-full py-8 px-12 flex flex-col max-sm:px-4 max-sm:py-2'>
+            <h1 className='text-3xl mb-4 max-sm:text-2xl'>Hello, and Welcome!</h1>
+            <h2 className='text-2xl mb-10 max-sm:text-xl'>Register</h2>
             <form action=''className='w-full'>
               <div className='flex flex-col w-1/2 gap-5 mb-2'>
                 <InputContainer placeholder="First Name" type="text" className="" />
@@ -28,7 +28,7 @@ const SignUpPage = () => {
                 <Button label="Sign Up" className="mt-6" />
               </div>
               <div className='flex flex-col my-6 gap-6'>
-                <p>Already registered, please click below button to login to your account.</p>
+                <p className="max-sm:text-sm max-sm:pr-4">Already registered, please click below button to login to your account.</p>
                 <Link to="/login">
                   <Button label="Log In" className="capitalize" />
                 </Link>
