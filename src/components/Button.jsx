@@ -1,7 +1,7 @@
-const Button = ({ label }) => {
+const Button = ({ label, type="button" }) => {
   return (
 
-    <button className="flex w-40 justify-center bg-green-900 text-white items-center px-7 py-4 rounded-full text-lg leading-none hover:bg-green-400" >
+    <button type={type} className="flex w-40 justify-center bg-green-900 text-white items-center px-7 py-4 rounded-full text-lg leading-none hover:bg-green-400" >
         {label}
     </button>
   )
