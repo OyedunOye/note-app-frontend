@@ -7,5 +7,10 @@ export default {
   theme: {
     extend: {},
   },
+  // variants: {
+  //   extend: {
+  //     backgroundColor: ['disabled']
+  //  },
+  // },
   plugins: [],
 }

@@ -1,3 +1,7 @@
+import { jwtDecode } from 'jwt-decode';
+
+
+//returns either true or false
 export function validateEmail(email) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailPattern.test(email);
@@ -20,3 +24,18 @@ export const validateRegisterDetails = (details) => {
   if (validateEmail(details.email) && validatePassword(details.password) === "VALID" && validateFirstName(details.firstName) === "VALID" && validateLastName(details.lastName) === "VALID" && validateConfirmPassword(details.confirmPassword) === "VALID") return "VALIDATED"
   return "INVALIDATED"
 }
+
+//Trying to extract user name to customize welcome message to the user logged in. No username in this info but user id is there
+//to get user id return decode.id. But how do I somehow get user name from the user Id? another user call to the db to return user details?
+export const getUserDetailsFromToken = (token) => {
+  try {
+    const decoded = jwtDecode(token);
+    return decoded
+
+  } catch (error) {
+    console.error("Invalid token", error);
+    return null;
+  }
+
+
+};

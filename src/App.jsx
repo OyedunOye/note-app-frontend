@@ -1,30 +1,42 @@
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import './index.css'
 import { Routes, Route } from "react-router-dom";
 import { LandingPage, LogInPage, NoteReader, SignUpPage } from './pages'
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [token, setToken] = useState(null)
+  useEffect(()=>{
+    const storageToken = localStorage.getItem("noteToken")
+    setToken(storageToken)
+  }, [])
 
   return (
 
     <main className='min-h-screen'>
       <Routes>
-        <Route path='/' element = {<LandingPage />}/>
+        <Route path='/home' element = {<LandingPage />}/>
+        <Route path='/' element = {token?<LandingPage />:<LogInPage />}/>
         <Route path='/login' element = {<LogInPage />}/>
         <Route path='/register' element = {<SignUpPage />}/>
-        <Route path='/note' element = {<NoteReader />} />
+        <Route path='/notes' element = {<NoteReader />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </main>
 
   )
 }
 
 export default App
-
-// {/* <div className='flex flex-col w-full h-full'> */}
-// <div className='mx-auto'>
-// {/* <SignUpPage /> */}
-// </div>
-
-// <div className='mx-auto'>
-// <LogInPage />
-// </div>
