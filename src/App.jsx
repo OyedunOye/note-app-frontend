@@ -1,4 +1,4 @@
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { Bounce, ToastContainer } from 'react-toastify';
 import './index.css'
 import { Routes, Route } from "react-router-dom";
 import { LandingPage, LogInPage, NoteReader, SignUpPage } from './pages'
@@ -15,11 +15,11 @@ function App() {
 
     <main className='min-h-screen'>
       <Routes>
-        <Route path='/home' element = {<LandingPage />}/>
+        <Route path='/notes' element = {<LandingPage />}/>
         <Route path='/' element = {token?<LandingPage />:<LogInPage />}/>
         <Route path='/login' element = {<LogInPage />}/>
         <Route path='/register' element = {<SignUpPage />}/>
-        <Route path='/notes' element = {<NoteReader />} />
+        <Route path='/notes/note' element = {<NoteReader />} />
       </Routes>
       <ToastContainer
         position="top-right"

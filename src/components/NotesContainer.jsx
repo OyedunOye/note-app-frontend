@@ -1,60 +1,79 @@
-import { MdOutlineClose } from "react-icons/md";
 import NoteCard from "./NoteCard"
 import { useState } from "react";
+import EditModal from "./modals/EditModal";
+import DeleteModal from "./modals/DeleteModal";
+
 
 const NotesContainer = () => {
 
   const userNotes = [
       {
+        id: 1,
         title: "This is note 1",
         content:"Random content."
       },
       {
+        id: 2,
         title: "Note 2",
         content: "Get ready to see some gibberish, you know what I mean."
       },
       {
+        id: 3,
         title: "Note 3",
         content: "Testing 1 23 45. just some random text hihhloyghlp ojoahklao"
       },
       {
+        id: 4,
         title: "Note 4",
         content: "Probably the last on the list. Well last but not the least"
       }
   ]
 
-  const [expandedNote, setExpandedNote] = useState(false);
+  // const [expandedNote, setExpandedNote] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [noteId, setNoteId] = useState("")
+  const [noteTitle, setNoteTitle] = useState("")
+  const [noteContent, setNoteContent] = useState("")
 
+
+  // Note how the function below was used in the NoteCard component, just called the name
+  //without () nor callback because it is a properly defined function
+
+  //Compare the difference in how the state-setters were called as callback functions in their respective components
+  //doing otherwise will not work as desired.
+
+  const setSelectedNote = ()=>{
+    const selectedNote = userNotes.filter(userNote => userNote.id === noteId)
+    if(selectedNote.length!==0){
+      setNoteTitle(selectedNote[0].title)
+      setNoteContent(selectedNote[0].content)
+    }else{
+      setNoteTitle("")
+      setNoteContent("")
+    }
+  }
+
+  //Keeping the below console.logs until the lagging problem with selected note card is fixed
+  //The problem is that the current noteId is returned but the noteTitle and noteContent for previously selected noteIds are selected in the UI. Still trying to solve this issue.
+  console.log(noteId)
+  console.log(noteTitle)
+  console.log(noteContent)
 
   return (
+
+    <>
+
+    {isModalOpen && <EditModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} setNoteTitle={(e)=>setNoteTitle(e.target.value)} setNoteContent={(e)=>setNoteContent(e.target.value)} resetNoteId={()=>setNoteId("")} />}
+    {isModalOpen && <DeleteModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} />}
+
     <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
-      {userNotes.map((userNote, index) => (
-        <NoteCard key={index} title={userNote.title} content={userNote.content} />
+      {userNotes.map((userNote) => (
+        <NoteCard key={userNote.id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote.id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote}/>
 
       ))}
 
-    {/* {expandedNote && (
-      <div className=""><div className="flex w-2/5 mx-auto my-[15%] rounded-md bg-slate-700 content-center justify-center h-1/2 p-5">
-            <div className="flex-col ">
-              <div className="flex justify-end absolute right-96 top-48 py-1 bg-transparent">
-                <IoIosCloseCircle className="flex w-10 size-6 bg-transparent" size="sm" onClick={()=>{setExpandedNote(false)}} />
-              </div>
-              <h3 className="font-extrabold text-center text-3xl">Are you sure you want to edit this note?</h3>
-              <p className="text-center text-xl my-2">Title: {userNote.title}</p>
-              <div className="flex flex-col border-8 border-black">
-                <input onChange={(e)=>{setNoteTitle(e.target.value)}} value={userNote.title} type="text" className=" h-1/4 border-8 border-black p-3 "></input>
-                <textarea onChange={(e)=>{setNoteContent(e.target.value)}} value={selectedNote.content}className="h-3/4 border-8 border-black p-3"> </textarea>
-              </div>
-              <div className="flex space-x-4 justify-center my-3">
-                <button className='bg-green-900 hover:bg-green-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2'>Cancel</button>
-                <button className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2'>Update</button>
-
-              </div>
-            </div>
-          </div></div>
-            )} */}
-
     </div>
+    </>
   )
 }
 

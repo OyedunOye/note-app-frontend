@@ -59,7 +59,7 @@ const LogInPage = () => {
           theme: "light",
           // transition: Bounce,
         });
-        navigate("/home")
+        navigate("/notes")
       }
     } catch (error) {
       console.log(error)
