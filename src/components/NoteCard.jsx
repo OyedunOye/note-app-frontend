@@ -1,7 +1,7 @@
 import { LuPencilLine } from "react-icons/lu";
 import { IoTrashBinOutline } from "react-icons/io5";
 
-const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, id, setNoteId, setSelectedNote, isEditModalClicked, isDeleteModalClicked }) => {
+const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNoteId, setSelectedNote, isEditModalClicked, isDeleteModalClicked }) => {
 
   //while calling multiple note setters within a component inheriting the state from its parent, this shows how to call multiple of state-setter functions in a action-handler. I mean the functions called onClick of the Edit Note button.
 
@@ -12,14 +12,19 @@ const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, id, set
       <div className="h-3/4 py-1 px-1">
         <p className="h-3/4 text-md my-1">{content}</p>
         <div className="flex gap-5">
-          <button type="button" className='bg-green-900 hover:bg-green-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2' onClick={()=>{isEditBtnClicked()
-            setNoteId(id)
+          <button type="button" className='bg-green-900 hover:bg-green-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2' onClick={()=>
+          {
+            setNoteId()
+            isEditBtnClicked()
             setSelectedNote()
             isEditModalClicked()
 
           }} >Edit Note <LuPencilLine className='flex my-1 mx-2' /> </button>
           <button className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2'onClick={()=>{isDeleteBtnClicked()
+            setNoteId()
             isDeleteModalClicked()
+            setSelectedNote()
+
             // setSelectedNote()
 
           }} >Delete Note <IoTrashBinOutline className='flex my-1 mx-2' /> </button>

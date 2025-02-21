@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { NoteCard, EditModal, DeleteModal} from "./index"
-import { useState } from "react";
 
 
 const NotesContainer = () => {
@@ -30,10 +30,21 @@ const NotesContainer = () => {
   const [toggleEditModal, setToggleEditModal] = useState(false);
   const [toggleDeleteModal, setToggleDeleteModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [noteId, setNoteId] = useState("")
+  const [noteId, setNoteId] = useState(null)
   const [noteTitle, setNoteTitle] = useState("")
   const [noteContent, setNoteContent] = useState("")
 
+  useEffect(() => {
+    if (noteId && isModalOpen && toggleEditModal ) {
+      setSelectedNote()
+    }
+  }, [noteId]);
+
+  useEffect(() => {
+    if (noteId && isModalOpen && toggleDeleteModal ) {
+      setSelectedNote()
+    }
+  }, [noteId]);
 
   // Note how the function below was used in the NoteCard component, just called the name
   //without () nor callback because it is a properly defined function
@@ -41,7 +52,9 @@ const NotesContainer = () => {
   //Compare the difference in how the state-setters were called as callback functions in their respective components
   //doing otherwise will not work as desired.
 
+
   const setSelectedNote = ()=>{
+
     const selectedNote = userNotes.filter(userNote => userNote.id === noteId)
     if(selectedNote.length!==0){
       setNoteTitle(selectedNote[0].title)
@@ -63,17 +76,20 @@ const NotesContainer = () => {
 
   //Keeping the below console.logs until the lagging problem with selected note card is fixed
   //The problem is that the current noteId is returned but the noteTitle and noteContent for previously selected noteIds are selected in the UI. Still trying to solve this issue.
-  console.log(noteId)
-  console.log(noteTitle)
-  console.log(noteContent)
+
+  //The two useEffects above solve the problem! Keeping my comments above to remind me of the difficulty I faced before getting this right 🙂
+
+  // console.log(noteId)
+  // console.log(noteTitle)
+  // console.log(noteContent)
 
   return (
 
     <>
 
-    {isModalOpen && toggleEditModal && <EditModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} setNoteTitle={(e)=>setNoteTitle(e.target.value)} setNoteContent={(e)=>setNoteContent(e.target.value)} resetNoteId={()=>setNoteId("")} />}
+    {noteId && isModalOpen && toggleEditModal && <EditModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} setNoteTitle={(e)=>setNoteTitle(e.target.value)} setNoteContent={(e)=>setNoteContent(e.target.value)} />}
 
-    {isModalOpen && toggleDeleteModal && <DeleteModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} />}
+    {noteId && isModalOpen && toggleDeleteModal && <DeleteModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} />}
 
     <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
       {userNotes.map((userNote) => (
