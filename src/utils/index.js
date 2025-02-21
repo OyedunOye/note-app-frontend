@@ -26,7 +26,8 @@ export const validateRegisterDetails = (details) => {
 }
 
 //Trying to extract user name to customize welcome message to the user logged in. No username in this info but user id is there
-//to get user id return decode.id. But how do I somehow get user name from the user Id? another user call to the db to return user details?
+//to get user id return decoded.id. But how do I somehow get user name from the user Id? another user call to the db to return user details?
+//This was solved by adding firstName to the userDetails object in loginRouter post function on the backend.
 export const getUserDetailsFromToken = (token) => {
   try {
     const decoded = jwtDecode(token);

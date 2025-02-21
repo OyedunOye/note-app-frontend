@@ -1,7 +1,5 @@
-import NoteCard from "./NoteCard"
+import { NoteCard, EditModal, DeleteModal} from "./index"
 import { useState } from "react";
-import EditModal from "./modals/EditModal";
-import DeleteModal from "./modals/DeleteModal";
 
 
 const NotesContainer = () => {
@@ -29,7 +27,8 @@ const NotesContainer = () => {
       }
   ]
 
-  // const [expandedNote, setExpandedNote] = useState(false);
+  const [toggleEditModal, setToggleEditModal] = useState(false);
+  const [toggleDeleteModal, setToggleDeleteModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [noteId, setNoteId] = useState("")
   const [noteTitle, setNoteTitle] = useState("")
@@ -53,6 +52,15 @@ const NotesContainer = () => {
     }
   }
 
+  const handleDeleteModal = () => {
+    setToggleDeleteModal(true)
+    setToggleEditModal(false)
+  }
+  const handleEditModal = () => {
+    setToggleDeleteModal(false)
+    setToggleEditModal(true)
+  }
+
   //Keeping the below console.logs until the lagging problem with selected note card is fixed
   //The problem is that the current noteId is returned but the noteTitle and noteContent for previously selected noteIds are selected in the UI. Still trying to solve this issue.
   console.log(noteId)
@@ -63,12 +71,13 @@ const NotesContainer = () => {
 
     <>
 
-    {isModalOpen && <EditModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} setNoteTitle={(e)=>setNoteTitle(e.target.value)} setNoteContent={(e)=>setNoteContent(e.target.value)} resetNoteId={()=>setNoteId("")} />}
-    {isModalOpen && <DeleteModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} />}
+    {isModalOpen && toggleEditModal && <EditModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} setNoteTitle={(e)=>setNoteTitle(e.target.value)} setNoteContent={(e)=>setNoteContent(e.target.value)} resetNoteId={()=>setNoteId("")} />}
+
+    {isModalOpen && toggleDeleteModal && <DeleteModal closeModal={()=>setIsModalOpen(false)} noteTitle={noteTitle} noteContent={noteContent} />}
 
     <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
       {userNotes.map((userNote) => (
-        <NoteCard key={userNote.id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote.id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote}/>
+        <NoteCard key={userNote.id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote.id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal}/>
 
       ))}
 

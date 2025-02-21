@@ -1,11 +1,11 @@
 import logo from '../assets/note-app-logo.png'
 import { LuSendHorizontal } from "react-icons/lu";
-import { NotesContainer } from '../components';
+import { NotesContainer } from '../components/index';
 import { Link } from 'react-router';
 import { getUserDetailsFromToken } from '../utils';
 
 const LandingPage = () => {
-  const testUser = {firstName: "Shade"}
+  // const testUser = {firstName: "Shade"}
 
   const token = localStorage.getItem("noteToken");
   const user = getUserDetailsFromToken(token).firstName;

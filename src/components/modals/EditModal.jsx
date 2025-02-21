@@ -1,4 +1,3 @@
-import React from 'react'
 import { IoIosCloseCircle } from "react-icons/io";
 
 
@@ -16,7 +15,7 @@ const EditModal = ({ noteContent, noteTitle, closeModal, resetNoteId, setNoteCon
                         <h3 className="font-extrabold text-center text-3xl">Are you sure you want to edit this note?</h3>
                         <p className="text-center text-xl my-2">Title: {noteTitle}</p>
                         <div className="flex flex-col border-8 border-black">
-                            <input onChange={(e)=>setNoteTitle(e)} Value={noteTitle} type="text" className=" h-1/4 border-8 border-black p-3 "></input>
+                            <input onChange={(e)=>setNoteTitle(e)} value={noteTitle}  className=" h-1/4 border-8 border-black p-3 "></input>
                             <textarea onChange={(e)=>setNoteContent(e)} value={noteContent} className="h-3/4 border-8 border-black p-3"> </textarea>
                         </div>
                         <div className="flex space-x-4 justify-center my-3">
