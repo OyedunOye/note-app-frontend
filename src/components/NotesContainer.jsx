@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { NoteCard, EditModal, DeleteModal} from "./index"
+import { getUserNotes } from "../services/auth.service";
+const token = localStorage.getItem("noteToken");
 
 
 const NotesContainer = () => {
@@ -35,6 +37,15 @@ const NotesContainer = () => {
   const [noteContent, setNoteContent] = useState("")
 
   useEffect(() => {
+    const data = getUserNotes()
+    console.log (data)
+    // setUserNotes(data)
+
+  }, [token])
+
+
+
+  useEffect(() => {
     if (noteId && isModalOpen && toggleEditModal ) {
       setSelectedNote()
     }
@@ -45,6 +56,11 @@ const NotesContainer = () => {
       setSelectedNote()
     }
   }, [noteId]);
+
+  // const handleSetUserNotes = (data) => {
+  //   setUserNotes(data)
+  // }
+
 
   // Note how the function below was used in the NoteCard component, just called the name
   //without () nor callback because it is a properly defined function
