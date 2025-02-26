@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
 import { NoteCard, EditModal, DeleteModal} from "./index"
 import { getUserNotes } from "../services/auth.service";
-const token = localStorage.getItem("noteToken");
 
 
 const NotesContainer = () => {
 
-  const userNotes = [
-      {
-        id: 1,
-        title: "This is note 1",
-        content:"Random content."
-      },
-      {
-        id: 2,
-        title: "Note 2",
-        content: "Get ready to see some gibberish, you know what I mean."
-      },
-      {
-        id: 3,
-        title: "Note 3",
-        content: "Testing 1 23 45. just some random text hihhloyghlp ojoahklao"
-      },
-      {
-        id: 4,
-        title: "Note 4",
-        content: "Probably the last on the list. Well last but not the least"
-      }
-  ]
+  const [userNotes, setUserNotes] = useState([
+    {
+      id: 1,
+      title: "This is note 1",
+      content:"Random content."
+    },
+    {
+      id: 2,
+      title: "Note 2",
+      content: "Get ready to see some gibberish, you know what I mean."
+    },
+    {
+      id: 3,
+      title: "Note 3",
+      content: "Testing 1 23 45. just some random text hihhloyghlp ojoahklao"
+    },
+    {
+      id: 4,
+      title: "Note 4",
+      content: "Probably the last on the list. Well last but not the least"
+    }
+  ])
 
+  const token = localStorage.getItem("noteToken");
   const [toggleEditModal, setToggleEditModal] = useState(false);
   const [toggleDeleteModal, setToggleDeleteModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -36,12 +36,27 @@ const NotesContainer = () => {
   const [noteTitle, setNoteTitle] = useState("")
   const [noteContent, setNoteContent] = useState("")
 
+
+  //why can't I set userNote to data? This is an array of notes returned from the db following calling
+  //service getUserNotes(). This was properly logged in the console, but somehow there is issue setting
+  //it as the userNotes array here.
   useEffect(() => {
     const data = getUserNotes()
     console.log (data)
-    // setUserNotes(data)
+  //    setUserNotes(data)
 
   }, [token])
+
+  // const handleGetUserNotes = () => {
+  //   const data = getUserNotes()
+  //   if (data.length !==0){
+  //     setUserNotes(data)
+
+  //   }
+  //   console.log(data)
+  // }
+
+  // handleGetUserNotes()
 
 
 

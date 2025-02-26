@@ -11,6 +11,7 @@ export const createUser = async (credentials) => {
         console.log(error)
     }
 }
+
 export const loginUser = async (credentials) => {
     try {
         const res = await axios.post(`${BASE_URL}login`, credentials)
@@ -44,5 +45,41 @@ export const createANewUserNote = async (credentials) => {
         return res.data
     } catch (error) {
         console.log('Error adding new note:', error)
+    }
+}
+
+export const editAnExistingNote = async (id, credentials) => {
+    try {
+        const res = await axios.patch(`${BASE_URL}notes${id}`, credentials, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    } catch (error) {
+        console.log("Error editing note:", error)
+    }
+}
+
+export const deleteAnExistingNote = async(id) => {
+    try {
+        const res = await axios.delete(`${BASE_URL}notes${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    } catch (error) {
+        console.log("Error deleting a note", error)
+    }
+}
+
+export const getSingleUserNote = async (id) => {
+    try {
+        const res = await axios.get(`${BASE_URL}notes${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    } catch (error) {
+        console.log(`Error retrieving note with id ${id}`, error)
     }
 }
