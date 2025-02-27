@@ -7,22 +7,22 @@ const NotesContainer = () => {
 
   const [userNotes, setUserNotes] = useState([
     {
-      id: 1,
+      _id: 1,
       title: "This is note 1",
       content:"Random content."
     },
     {
-      id: 2,
+      _id: 2,
       title: "Note 2",
       content: "Get ready to see some gibberish, you know what I mean."
     },
     {
-      id: 3,
+      _id: 3,
       title: "Note 3",
       content: "Testing 1 23 45. just some random text hihhloyghlp ojoahklao"
     },
     {
-      id: 4,
+      _id: 4,
       title: "Note 4",
       content: "Probably the last on the list. Well last but not the least"
     }
@@ -40,12 +40,15 @@ const NotesContainer = () => {
   //why can't I set userNote to data? This is an array of notes returned from the db following calling
   //service getUserNotes(). This was properly logged in the console, but somehow there is issue setting
   //it as the userNotes array here.
+
+  //for async functions, the result will be a promise that will either be rejected or fulfilled.
+  //2 solutions: either we use then to chain what happens to the fulfilled promise or we use another function
+  //that we will now as async function inside the useEffect().
   useEffect(() => {
-    const data = getUserNotes()
-    console.log (data)
-  //    setUserNotes(data)
+    getUserNotes().then(notes=>setUserNotes(notes))
 
   }, [token])
+  // console.log(userNotes)
 
   // const handleGetUserNotes = () => {
   //   const data = getUserNotes()
@@ -86,7 +89,7 @@ const NotesContainer = () => {
 
   const setSelectedNote = ()=>{
 
-    const selectedNote = userNotes.filter(userNote => userNote.id === noteId)
+    const selectedNote = userNotes.filter(userNote => userNote._id === noteId)
     if(selectedNote.length!==0){
       setNoteTitle(selectedNote[0].title)
       setNoteContent(selectedNote[0].content)
@@ -124,7 +127,7 @@ const NotesContainer = () => {
 
     <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
       {userNotes.map((userNote) => (
-        <NoteCard key={userNote.id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote.id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal}/>
+        <NoteCard key={userNote._id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote._id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal}/>
 
       ))}
 

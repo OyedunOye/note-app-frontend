@@ -14,8 +14,8 @@ const DeleteModal = ({ noteTitle, noteContent, closeModal}) => {
                         <h3 className="font-extrabold text-center text-3xl">Are you sure you want to delete this note?</h3>
                         <p className="text-center text-xl my-2">Title: {noteTitle}</p>
                         <div className="flex flex-col border-8 border-black">
-                            <p type="text" className="bg-white  h-1/4 border-8 border-black p-3 ">{noteTitle}</p>
-                            <div className="h-3/4 border-8 border-black p-3 bg-white">{noteContent}</div>
+                            <p type="text" className="bg-white  h-16 border-8 border-black p-3 overflow-y-auto">{noteTitle}</p>
+                            <div className="h-32 overflow-y-auto border-8 border-black p-3 bg-white">{noteContent}</div>
                         </div>
                         <div className="flex space-x-4 justify-center my-3">
                             <button className='bg-green-900 hover:bg-green-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2' onClick={()=>closeModal()}>Cancel</button>
