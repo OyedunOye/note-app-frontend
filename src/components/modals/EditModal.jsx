@@ -1,7 +1,9 @@
 import { IoIosCloseCircle } from "react-icons/io";
+import { getSingleUserNote } from "../../services/auth.service";
 
 
-const EditModal = ({ noteContent, noteTitle, closeModal, resetNoteId, setNoteContent, setNoteTitle }) => {
+const EditModal = ({ noteContent, noteTitle, closeModal, handleEditANote, setNoteContent, setNoteTitle }) => {
+
   return (
 
     <div className='fixed top-0 left-0 bg-black/80 w-full h-full z-[999]'>
@@ -23,7 +25,7 @@ const EditModal = ({ noteContent, noteTitle, closeModal, resetNoteId, setNoteCon
 
                             >
                             Cancel</button>
-                            <button className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2'>Update</button>
+                            <button type="button" className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2' onClick={(e)=>handleEditANote(e)}>Update</button>
 
                         </div>
                     </div>

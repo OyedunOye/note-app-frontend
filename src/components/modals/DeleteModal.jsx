@@ -1,7 +1,8 @@
 import { IoIosCloseCircle } from "react-icons/io";
 
 
-const DeleteModal = ({ noteTitle, noteContent, closeModal}) => {
+const DeleteModal = ({ noteTitle, noteContent, closeModal, handleDeleteANote}) => {
+
   return (
     <div className='fixed top-0 left-0 bg-black/80 w-full h-full z-[999]'>
         <div className='h-full w-full flex items-center justify-center'>
@@ -19,7 +20,7 @@ const DeleteModal = ({ noteTitle, noteContent, closeModal}) => {
                         </div>
                         <div className="flex space-x-4 justify-center my-3">
                             <button className='bg-green-900 hover:bg-green-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2' onClick={()=>closeModal()}>Cancel</button>
-                            <button className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2'>Delete</button>
+                            <button type="button" className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2' onClick={()=>handleDeleteANote()}>Delete</button>
 
                         </div>
                     </div>
