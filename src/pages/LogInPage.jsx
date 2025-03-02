@@ -3,7 +3,7 @@ import { useState } from "react";
 import logo from '../assets/note-app-logo.png'
 import { Button, InputContainer } from '../components'
 import { validateEmail, validateLoginDetails, validatePassword } from "../utils";
-import { loginUser } from '../services/auth.service';
+import { getUserNotes, loginUser } from '../services/auth.service';
 import { ErrorMessage } from './SignUpPage';
 import { toast } from 'react-toastify';
 
@@ -13,6 +13,7 @@ const LogInPage = () => {
   const [password, setPassword] = useState("")
   const [passwordError, setPasswordError] = useState("")
   const [emailError, setEmailError] = useState("")
+
 
   const navigate = useNavigate()
 
@@ -59,6 +60,8 @@ const LogInPage = () => {
           theme: "light",
           // transition: Bounce,
         });
+        const token = localStorage.getItem("noteToken");
+        await getUserNotes()
         navigate("/notes")
       }
     } catch (error) {

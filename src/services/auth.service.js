@@ -48,13 +48,14 @@ export const createANewUserNote = async (credentials) => {
     }
 }
 
-export const editAnExistingNote = async (id, credentials) => {
+export const editAnExistingNote = async (noteId, credentials) => {
     try {
-        const res = await axios.patch(`${BASE_URL}notes${id}`, credentials, {
+        const res = await axios.patch(`${BASE_URL}notes/${noteId}`, credentials, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
+        return res.data
     } catch (error) {
         console.log("Error editing note:", error)
     }
@@ -62,11 +63,12 @@ export const editAnExistingNote = async (id, credentials) => {
 
 export const deleteAnExistingNote = async(id) => {
     try {
-        const res = await axios.delete(`${BASE_URL}notes${id}`, {
+        const res = await axios.delete(`${BASE_URL}notes/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
+        return res.data
     } catch (error) {
         console.log("Error deleting a note", error)
     }
@@ -74,11 +76,12 @@ export const deleteAnExistingNote = async(id) => {
 
 export const getSingleUserNote = async (id) => {
     try {
-        const res = await axios.get(`${BASE_URL}notes${id}`, {
+        const res = await axios.get(`${BASE_URL}notes/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
+        return res.data
     } catch (error) {
         console.log(`Error retrieving note with id ${id}`, error)
     }

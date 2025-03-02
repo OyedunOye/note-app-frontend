@@ -14,8 +14,7 @@ const NotesContainer = () => {
   const [noteId, setNoteId] = useState(null)
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
-  // const selectedNote = userNotes.filter(userNote => userNote._id === noteId)
-
+  const[isASingleNoteClicked, setIsASingleNoteClicked] = useState(false)
 
   //why can't I set userNote to data? This is an array of notes returned from the db following calling
   //service getUserNotes(). This was properly logged in the console, but somehow there is issue setting
@@ -24,20 +23,11 @@ const NotesContainer = () => {
   //for async functions, the result will be a promise that will either be rejected or fulfilled.
   //2 solutions: either we use then to chain what happens to the fulfilled promise or we use another function
   //that we will now call as async function inside the useEffect().
+
   useEffect(() => {
     getUserNotes().then(notes=>setUserNotes(notes))
 
-  }, [token])
-  // console.log(userNotes)
-
-  // const handleGetUserNotes = () => {
-  //   const data = getUserNotes()
-  //   if (data.length !==0){
-  //     setUserNotes(data)
-
-  //   }
-  //   console.log(data)
-  // }
+  }, [userNotes, token])
 
 
   useEffect(() => {
@@ -52,7 +42,11 @@ const NotesContainer = () => {
     }
   }, [noteId]);
 
-
+  useEffect(()=>{
+    if(isASingleNoteClicked) {
+      handleGetANoteId()
+    }
+  }, [noteId])
   // Note how the function below was used in the NoteCard component, just called the name
   //without () nor callback because it is a properly defined function
 
@@ -81,18 +75,6 @@ const NotesContainer = () => {
     setToggleEditModal(true)
   }
 
-  // const handleGetAUserNote = async () => {
-  //   return await getSingleUserNote(noteId)
-  // }
-
-  // useEffect(() => {
-  //   handleGetAUserNote()
-
-  // }, [token, noteId])
-
-  // console.log(noteId)
-  // handleGetAUserNote()
-
   const handleEditANote = async(e)=>{
     e.preventDefault();
     const credentials = {
@@ -101,20 +83,18 @@ const NotesContainer = () => {
     }
     if (title!=="" && content !== ""){
       try {
-        console.log(credentials)
-        console.log(noteId)
+        // console.log(credentials)
+        // console.log(noteId)
         const data = await editAnExistingNote(noteId, credentials)
         console.log(data)
         toast(data.message, {
           position: "top-right",
           autoClose: 5000,
-          // hideProgressBar: false,
           closeOnClick: false,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
           theme: "light",
-          // transition: Bounce,
         });
         setToggleEditModal(false)
         await getUserNotes().then(notes=>setUserNotes(notes))
@@ -125,13 +105,11 @@ const NotesContainer = () => {
       toast("Neither the title nor the content can be empty, delete the note instead!", {
         position: "top-right",
         autoClose: 5000,
-        // hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
-        // transition: Bounce,
       });
     }
   }
@@ -143,13 +121,11 @@ const NotesContainer = () => {
       toast("Note deleted successfully!", {
         position: "top-right",
         autoClose: 5000,
-        // hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
-        // transition: Bounce,
       });
       setToggleDeleteModal(false)
       await getUserNotes().then(notes=>setUserNotes(notes))
@@ -158,18 +134,30 @@ const NotesContainer = () => {
     }
   }
 
-  // useEffect(()=>{
-  //   handleEditANote()
-  // }, [noteId])
 
-  //Keeping the below console.logs until the lagging problem with selected note card is fixed
-  //The problem is that the current noteId is returned but the noteTitle and noteContent for previously selected noteIds are selected in the UI. Still trying to solve this issue.
+  //why is noteId void here? The implementation is very similar to delete and update note, the only difference is that they
+  //are trigerred by buttons and this is a redirection to page wrapped around h1 and p tags. Could this be the problem?
+  //How to correct this?
+  const handleGetANoteId = async()=>{
+    try {
+      console.log(noteId)
+      const data = await getSingleUserNote(noteId)
+      console.log(data)
+      window.localStorage.setItem("id", data.note[0]._id)
+      setIsASingleNoteClicked(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=> {
+    handleGetANoteId()
 
-  //The two useEffects above solve the problem! Keeping my comments above to remind me of the difficulty I faced before getting this right 🙂
+  }, [noteId])
 
-  // console.log(noteId)
-  // console.log(noteTitle)
-  // console.log(noteContent)
+
+  //I faced a lagging problem with selected note card. The problem is that the current noteId is returned but the title and content for previously selected noteIds are selected in the UI. Still trying to solve this issue.
+
+  //The two useEffects above checking conditions to be fulfilled to setSelectedNote for both modals solve the problem! Keeping my comments above to remind me of the difficulty I faced before getting this right 🙂
 
   return (
 
@@ -183,7 +171,7 @@ const NotesContainer = () => {
 
     <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
       {userNotes.map((userNote) => (
-        <NoteCard key={userNote._id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote._id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal}/>
+        <NoteCard key={userNote._id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote._id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal} handleGetANoteId={()=>handleGetANoteId()} setIsASingleNoteClicked={()=>{setIsASingleNoteClicked(true)}}/>
 
       ))}
 
