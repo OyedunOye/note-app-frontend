@@ -61,7 +61,7 @@ const LandingPage = () => {
   return (
     <>
     {/* {window.onload = ()=>handleGetUserNotes()} */}
-      <div className="min-h-screen w-full bg-gradient">
+      <div className="min-h-screen w-full bg-gradient overflow-hidden">
         <div className='bg-gradient md:sticky top-0 left-0 h-1/2 z-10 border-b-2 border-b-green-900'>
           <div className='flex w-full justify-between'>
             <Link to="/notes"><img src={logo} alt="logo" width={80} height={40} className='py-4 px-3 cursor-pointer' /></Link>
