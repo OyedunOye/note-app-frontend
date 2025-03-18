@@ -76,7 +76,7 @@ const LogInPage = () => {
 
   return (
 
-    <div className='bg-gradient h-screen  max-sm:w-full sm:px-3'>
+    <div className='bg-gradient min-h-screen  max-sm:w-full sm:px-3'>
       <div className='flex items-start justify-center w-20 py-6'>
         <img src={logo} alt="logo" width={60} height={30} />
       </div>
