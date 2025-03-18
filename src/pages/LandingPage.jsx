@@ -48,6 +48,7 @@ const LandingPage = () => {
             // transition: Bounce,
           });
           clearForm()
+          window.location.reload()
         }
       } catch (error) {
         console.log(error)

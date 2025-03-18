@@ -27,7 +27,7 @@ const NotesContainer = () => {
   useEffect(() => {
     getUserNotes().then(notes=>setUserNotes(notes))
 
-  }, [userNotes, token])
+  }, [token])
 
 
   useEffect(() => {
