@@ -63,6 +63,7 @@ const LogInPage = () => {
         const token = localStorage.getItem("noteToken");
         await getUserNotes()
         navigate("/notes")
+        window.location.reload()
       }
     } catch (error) {
       console.log(error)
