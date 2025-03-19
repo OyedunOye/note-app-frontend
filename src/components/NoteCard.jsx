@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { LuPencilLine } from "react-icons/lu";
 import { IoTrashBinOutline } from "react-icons/io5";
 
-const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNoteId, setSelectedNote, isEditModalClicked, isDeleteModalClicked, handleGetANoteId, setIsASingleNoteClicked }) => {
+const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNoteId, setSelectedNote, isEditModalClicked, isDeleteModalClicked, handleGetANoteId, setIsASingleNoteClicked, id }) => {
   //while calling multiple note setters within a component inheriting the state from its parent, this shows how to call multiple of state-setter functions in a action-handler. I mean the functions called onClick of the Edit Note button.
 
   return (
@@ -15,7 +15,7 @@ const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNote
         }}>{title}</h1>
         </Link>
         <div className="h-56 py-1 px-1">
-          <Link to='/notes/note'>
+          <Link to={`/notes/${id}`}>
             <p className="h-3/4 text-md mt-1 mb-2 overflow-hidden text-ellipsis" onClick={()=>{setNoteId()
           setIsASingleNoteClicked()
           handleGetANoteId()

@@ -171,7 +171,7 @@ const NotesContainer = () => {
 
     <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
       {userNotes.map((userNote) => (
-        <NoteCard key={userNote._id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote._id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal} handleGetANoteId={()=>handleGetANoteId()} setIsASingleNoteClicked={()=>{setIsASingleNoteClicked(true)}}/>
+        <NoteCard key={userNote._id} id={userNote._id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote._id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal} handleGetANoteId={()=>handleGetANoteId()} setIsASingleNoteClicked={()=>{setIsASingleNoteClicked(true)}}/>
 
       ))}
 

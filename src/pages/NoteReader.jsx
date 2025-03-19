@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { IoIosCloseCircle } from "react-icons/io";
 import logo from '../assets/note-app-logo.png'
 import { useEffect, useState } from 'react';
@@ -14,9 +14,12 @@ const NoteReader = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState('')
   const [confirmDeletion, setConfirmDeletion] = useState(false)
-  const noteId = localStorage.getItem("id")
+  // const noteId = localStorage.getItem("id")
 
   const navigate = useNavigate()
+  const {id} = useParams()
+
+  // console.log(id)
 
   const deleteConfirmation = (e) =>{
     setConfirmDeletion(true)
@@ -25,7 +28,7 @@ const NoteReader = () => {
   const handleGetASingleNote = async()=>{
     try {
       // console.log(noteId)
-      const data = await getSingleUserNote(noteId)
+      const data = await getSingleUserNote(id)
       setTitle(data.note[0].title)
       setContent(data.note[0].content)
     } catch (error) {
@@ -35,7 +38,7 @@ const NoteReader = () => {
 
   useEffect(()=> {
       handleGetASingleNote()
-    }, [noteId])
+    }, [id])
 
   const handleEdit = async(e)=>{
     e.preventDefault();
@@ -45,7 +48,7 @@ const NoteReader = () => {
     }
     if (title!=="" && content !== ""){
       try {
-        const data = await editAnExistingNote(noteId, credentials)
+        const data = await editAnExistingNote(id, credentials)
         toast(data.message, {
           position: "top-right",
           autoClose: 5000,
@@ -74,7 +77,7 @@ const NoteReader = () => {
 
   const handleDelete = async()=>{
     try {
-      await deleteAnExistingNote(noteId)
+      await deleteAnExistingNote(id)
       toast("Note deleted successfully!", {
         position: "top-right",
         autoClose: 5000,

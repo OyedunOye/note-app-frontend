@@ -19,7 +19,7 @@ function App() {
         <Route path='/' element = {token?<LandingPage />:<LogInPage />}/>
         <Route path='/login' element = {<LogInPage />}/>
         <Route path='/register' element = {<SignUpPage />}/>
-        <Route path='/notes/note' element = {<NoteReader />} />
+        <Route path='/notes/:id' element = {<NoteReader />} />
       </Routes>
       <ToastContainer
         position="top-right"
