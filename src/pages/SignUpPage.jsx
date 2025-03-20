@@ -3,9 +3,7 @@ import logo from "../assets/note-app-logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { createUser } from "../services/auth.service";
-import { validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validatePassword, validateRegisterDetails } from "../utils";
-import { toast } from 'react-toastify';
-
+import { toasterAlert, validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validatePassword, validateRegisterDetails } from "../utils";
 
 export const ErrorMessage = ({message}) => {
   return (
@@ -72,21 +70,12 @@ const SignUpPage = () => {
       const validate = validateRegisterDetails(credentials)
       if(validate === "VALIDATED") {
         const data = await createUser(credentials)
-        toast(data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          // hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light"
-        });
+        toasterAlert(data.message)
         navigate("/login")
       }
     } catch (error) {
       console.log(error)
-
+      toasterAlert("Unsuccessful registration, please try again.")
     }
   }
 

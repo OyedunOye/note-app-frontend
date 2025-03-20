@@ -2,29 +2,23 @@ import logo from '../assets/note-app-logo.png'
 import { LuSendHorizontal } from "react-icons/lu";
 import { NotesContainer } from '../components/index';
 import { Link } from 'react-router';
-import { getUserDetailsFromToken } from '../utils';
+import { getUserDetailsFromToken, toasterAlert } from '../utils';
 import { createANewUserNote } from '../services/auth.service';
-import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 
 const LandingPage = () => {
-  // const testUser = {firstName: "Shade"}
 
   const token = localStorage.getItem("noteToken");
   const user = getUserDetailsFromToken(token).firstName;
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   const clearForm = () => {
     setContent("")
     setTitle("")
   }
-
-  // const handleGetUserNotes = async()=> {
-  //   const token = localStorage.getItem("noteToken");
-  //   await getUserNotes()
-  // }
 
   const handleAddNewNote = async (e) => {
       e.preventDefault();
@@ -34,19 +28,11 @@ const LandingPage = () => {
       }
 
       try {
-        if (title !== "" && content !== "") {
+        if (title == "" || content == "") {
+          toasterAlert("Neither the title nor the note content can be empty!")
+        } else if(title !== "" && content !== "") {
           const data = await createANewUserNote(credentials)
-          toast(data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            // hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            // transition: Bounce,
-          });
+          toasterAlert(data.message)
           clearForm()
           window.location.reload()
         }
@@ -56,12 +42,23 @@ const LandingPage = () => {
     }
 
   //this function clears user token upon them logging out, so they would be required to login in again before they could access the app homepage.
-  const handleClearToken = () =>{localStorage.clear()}
+  const handleClearToken = () =>{
+    localStorage.clear()
+    setIsLoggingOut(true)
+  }
 
 
   return (
     <>
     {/* {window.onload = ()=>handleGetUserNotes()} */}
+    {isLoggingOut? (
+      <div className='flex fixed top-0 left-0 bg-black/80 w-full h-full z-[999]'>
+        <div className="flex flex-col items-center justify-center w-full">
+          <BiLoaderCircle className="h-8 w-8 text-white animate-spin" />
+          <p className='text-2xl'>Logging out</p>
+        </div>
+      </div>
+    ) : (
       <div className="min-h-screen w-full bg-gradient overflow-hidden">
         <div className='bg-gradient md:sticky top-0 left-0 h-1/2 z-10 border-b-2 border-b-green-900'>
           <div className='flex w-full justify-between'>
@@ -87,7 +84,7 @@ const LandingPage = () => {
           <NotesContainer />
         </div>
       </div>
-
+    )}
     </>
   )
 }
