@@ -3,11 +3,11 @@ import { IoIosCloseCircle } from "react-icons/io";
 import logo from '../assets/note-app-logo.png'
 import { useEffect, useState } from 'react';
 import { deleteAnExistingNote, editAnExistingNote, getSingleUserNote } from '../services/auth.service';
-import { toast } from 'react-toastify';
 import { IoTrashBinOutline } from 'react-icons/io5';
 import { LuPencilLine } from 'react-icons/lu';
 import { Confirmation } from '../components';
 import { BiLoaderCircle } from 'react-icons/bi';
+import { toasterAlert } from '../utils';
 
 
 const NoteReader = () => {
@@ -54,29 +54,13 @@ const NoteReader = () => {
     if (title!=="" && content !== ""){
       try {
         const data = await editAnExistingNote(id, credentials)
-        toast(data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toasterAlert(data.message)
         navigate("/notes")
       } catch (error) {
         console.log(error)
       }
     } else {
-      toast("Neither the title nor the content can be empty, delete the note instead!", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toasterAlert("Neither the title nor the content can be empty, delete the note instead!")
     }
   }
 
@@ -84,15 +68,7 @@ const NoteReader = () => {
     setLoading(true)
     try {
       await deleteAnExistingNote(id)
-      toast("Note deleted successfully!", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toasterAlert("Note deleted successfully!")
       navigate("/notes")
     } catch (error) {
       console.log(error)

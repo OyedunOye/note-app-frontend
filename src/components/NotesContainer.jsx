@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { NoteCard, EditModal, DeleteModal} from "./index"
 import { deleteAnExistingNote, editAnExistingNote, getSingleUserNote, getUserNotes } from "../services/auth.service";
-import { toast } from "react-toastify";
 import { BiLoaderCircle } from "react-icons/bi";
+import { toasterAlert } from "../utils";
 
 
 const NotesContainer = () => {
@@ -88,15 +88,7 @@ const NotesContainer = () => {
       try {
         setIsLoading(true)
         const data = await editAnExistingNote(noteId, credentials)
-        toast(data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toasterAlert(data.message)
         setToggleEditModal(false)
         await getUserNotes().then(notes=>setUserNotes(notes))
       } catch (error) {
@@ -106,15 +98,7 @@ const NotesContainer = () => {
       }
 
     } else {
-      toast("Neither the title nor the content can be empty, delete the note instead!", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toasterAlert("Neither the title nor the content can be empty, delete the note instead!")
     }
   }
 
@@ -122,15 +106,7 @@ const NotesContainer = () => {
     setIsLoading(true)
     try {
       await deleteAnExistingNote(noteId)
-      toast("Note deleted successfully!", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toasterAlert("Note deleted successfully!")
       setToggleDeleteModal(false)
       await getUserNotes().then(notes=>setUserNotes(notes))
     } catch (error) {
