@@ -8,15 +8,15 @@ const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNote
   return (
     <div>
       <div className="flex flex-col w-80 h-72 m-3 p-3 rounded-md shadow-md bg-white divide-y-2 divide-green-300 cursor-pointer">
-        <Link to='/notes/note'>
-          <h1 className="font-bold text-lg h-10 py-1 truncate" onClick={()=>{setNoteId()
+        <Link to={`/notes/${id}`}>
+          <h1 className="font-bold text-lg h-10 py-1 truncate" onClick={()=>{
           setIsASingleNoteClicked()
           handleGetANoteId()
         }}>{title}</h1>
         </Link>
         <div className="h-56 py-1 px-1">
           <Link to={`/notes/${id}`}>
-            <p className="h-3/4 text-md mt-1 mb-2 overflow-hidden text-ellipsis" onClick={()=>{setNoteId()
+            <p className="h-3/4 text-md mt-1 mb-2 overflow-hidden text-ellipsis" onClick={()=>{
           setIsASingleNoteClicked()
           handleGetANoteId()
           }}>{content}</p>
@@ -34,8 +34,6 @@ const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNote
               setNoteId()
               isDeleteModalClicked()
               setSelectedNote()
-
-              // setSelectedNote()
 
             }} >Delete Note <IoTrashBinOutline className='flex my-1 mx-2' /> </button>
           </div>

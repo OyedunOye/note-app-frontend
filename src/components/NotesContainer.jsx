@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NoteCard, EditModal, DeleteModal} from "./index"
 import { deleteAnExistingNote, editAnExistingNote, getSingleUserNote, getUserNotes } from "../services/auth.service";
 import { toast } from "react-toastify";
+import { BiLoaderCircle } from "react-icons/bi";
 
 
 const NotesContainer = () => {
@@ -15,6 +16,7 @@ const NotesContainer = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const[isASingleNoteClicked, setIsASingleNoteClicked] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   //why can't I set userNote to data? This is an array of notes returned from the db following calling
   //service getUserNotes(). This was properly logged in the console, but somehow there is issue setting
@@ -77,16 +79,15 @@ const NotesContainer = () => {
 
   const handleEditANote = async(e)=>{
     e.preventDefault();
+    // setIsLoading(true)
     const credentials = {
       title,
       content
     }
     if (title!=="" && content !== ""){
       try {
-        // console.log(credentials)
-        // console.log(noteId)
+        setIsLoading(true)
         const data = await editAnExistingNote(noteId, credentials)
-        console.log(data)
         toast(data.message, {
           position: "top-right",
           autoClose: 5000,
@@ -100,7 +101,10 @@ const NotesContainer = () => {
         await getUserNotes().then(notes=>setUserNotes(notes))
       } catch (error) {
         console.log(error)
+      } finally {
+        setIsLoading(false)
       }
+
     } else {
       toast("Neither the title nor the content can be empty, delete the note instead!", {
         position: "top-right",
@@ -115,8 +119,8 @@ const NotesContainer = () => {
   }
 
   const handleDeleteANote = async()=>{
+    setIsLoading(true)
     try {
-      console.log(noteId)
       await deleteAnExistingNote(noteId)
       toast("Note deleted successfully!", {
         position: "top-right",
@@ -131,6 +135,8 @@ const NotesContainer = () => {
       await getUserNotes().then(notes=>setUserNotes(notes))
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -139,14 +145,15 @@ const NotesContainer = () => {
   //are trigerred by buttons and this is a redirection to page wrapped around h1 and p tags. Could this be the problem?
   //How to correct this?
   const handleGetANoteId = async()=>{
+    setIsLoading(true)
     try {
-      console.log(noteId)
       const data = await getSingleUserNote(noteId)
-      console.log(data)
-      window.localStorage.setItem("id", data.note[0]._id)
+      // window.localStorage.setItem("id", data.note[0]._id)
       setIsASingleNoteClicked(false)
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
   useEffect(()=> {
@@ -163,24 +170,32 @@ const NotesContainer = () => {
 
     <>
 
-    {noteId && isModalOpen && toggleEditModal && <EditModal closeModal={()=>setIsModalOpen(false)} noteTitle={title} noteContent={content} setNoteTitle={(e)=>setTitle(e.target.value)} setNoteContent={(e)=>setContent(e.target.value)} noteId={noteId} handleEditANote={handleEditANote} />}
+    {noteId && isModalOpen && toggleEditModal && <EditModal closeModal={()=>setIsModalOpen(false)} noteTitle={title} noteContent={content} setNoteTitle={(e)=>setTitle(e.target.value)} setNoteContent={(e)=>setContent(e.target.value)} noteId={noteId} handleEditANote={handleEditANote} isLoading={isLoading} />}
 
-    {noteId && isModalOpen && toggleDeleteModal && <DeleteModal closeModal={()=>setIsModalOpen(false)} noteTitle={title} noteContent={content} handleDeleteANote={handleDeleteANote} />}
+    {noteId && isModalOpen && toggleDeleteModal && <DeleteModal closeModal={()=>setIsModalOpen(false)} noteTitle={title} noteContent={content} handleDeleteANote={handleDeleteANote} isLoading={isLoading} />}
 
-    {userNotes ? (
-
-    <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
-      {userNotes.map((userNote) => (
-        <NoteCard key={userNote._id} id={userNote._id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote._id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal} handleGetANoteId={()=>handleGetANoteId()} setIsASingleNoteClicked={()=>{setIsASingleNoteClicked(true)}}/>
-
-      ))}
-
-    </div>
-    ) : (
-      <div className="flex text-3xl my-20">
-        <h3 className="mx-10 text-center w-full">You do not have any notes, create your first note!</h3>
+    {isLoading && !isModalOpen ? (
+      <div className="flex items-center justify-center">
+        <BiLoaderCircle className="h-8 w-8 text-white animate-spin" />
       </div>
-    ) }
+    ): (
+    <>
+      {userNotes ? (
+
+        <div className="flex mx-auto content-center justify-center overflow-hidden flex-wrap">
+          {userNotes.map((userNote) => (
+            <NoteCard key={userNote._id} id={userNote._id} title={userNote.title} content={userNote.content} isEditBtnClicked={()=>setIsModalOpen(true)} setNoteId={()=>setNoteId(userNote._id)} isDeleteBtnClicked={()=>setIsModalOpen(true)} setSelectedNote={setSelectedNote} isDeleteModalClicked={handleDeleteModal} isEditModalClicked={handleEditModal} handleGetANoteId={()=>handleGetANoteId()} setIsASingleNoteClicked={()=>{setIsASingleNoteClicked(true)}} isLoading={isLoading}/>
+
+          ))}
+
+        </div>
+      ) : (
+        <div className="flex text-3xl my-20">
+          <h3 className="mx-10 text-center w-full">You do not have any notes, create your first note!</h3>
+        </div>
+      )}
+    </>
+    )}
     </>
   )
 }
