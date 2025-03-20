@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { IoTrashBinOutline } from 'react-icons/io5';
 import { LuPencilLine } from 'react-icons/lu';
 import { Confirmation } from '../components';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 
 const NoteReader = () => {
@@ -14,6 +15,7 @@ const NoteReader = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState('')
   const [confirmDeletion, setConfirmDeletion] = useState(false)
+  const [loading, setLoading] = useState(false)
   // const noteId = localStorage.getItem("id")
 
   const navigate = useNavigate()
@@ -26,6 +28,7 @@ const NoteReader = () => {
   }
 
   const handleGetASingleNote = async()=>{
+    setLoading(true)
     try {
       // console.log(noteId)
       const data = await getSingleUserNote(id)
@@ -33,6 +36,8 @@ const NoteReader = () => {
       setContent(data.note[0].content)
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -76,6 +81,7 @@ const NoteReader = () => {
   }
 
   const handleDelete = async()=>{
+    setLoading(true)
     try {
       await deleteAnExistingNote(id)
       toast("Note deleted successfully!", {
@@ -90,11 +96,19 @@ const NoteReader = () => {
       navigate("/notes")
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
 
   return (
+    <>
+    {loading ? (
+      <div className="flex items-center justify-center min-h-screen rounded-md bg-gradient">
+        <BiLoaderCircle className="h-8 w-8 text-white animate-spin" />
+      </div>
+      ): (
     <>
     {confirmDeletion && <Confirmation handleDelete={handleDelete} setConfirmDeletion={()=>setConfirmDeletion(false)} />}
     <div className="flex w-full mx-auto min-h-screen rounded-md bg-gradient content-center justify-center p-5 overflow-hidden">
@@ -123,6 +137,8 @@ const NoteReader = () => {
       </div>
     </div>
     </>
+      )}
+  </>
   )
 }
 

@@ -1,13 +1,17 @@
+import { BiLoaderCircle } from "react-icons/bi";
 import { IoIosCloseCircle } from "react-icons/io";
-import { getSingleUserNote } from "../../services/auth.service";
 
-
-const EditModal = ({ noteContent, noteTitle, closeModal, handleEditANote, setNoteContent, setNoteTitle }) => {
+const EditModal = ({ noteContent, noteTitle, closeModal, handleEditANote, setNoteContent, setNoteTitle, isLoading={isLoading} }) => {
 
   return (
 
     <div className='fixed top-0 left-0 bg-black/80 w-full h-full z-[999]'>
         <div className='h-full w-full flex items-center justify-center'>
+            {isLoading? (
+                <div className="flex items-center justify-center">
+                    <BiLoaderCircle className="h-8 w-8 text-white animate-spin" />
+                </div>
+            ): (
             <div className=" h-[600px] w-[500px] mt-12 relative">
                 <div className="flex w-full rounded-md bg-gradient p-5 ">
                     <div className="flex-col p-3">
@@ -32,6 +36,8 @@ const EditModal = ({ noteContent, noteTitle, closeModal, handleEditANote, setNot
                 </div>
 
             </div>
+            )
+            }
         </div>
     </div>
   )
