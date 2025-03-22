@@ -22,7 +22,7 @@ const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNote
           }}>{content}</p>
           </Link>
           <div className="flex gap-5">
-            <button type="button" className='bg-green-900 hover:bg-green-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2' onClick={()=>
+            <button type="button" className='bg-green-900 hover:bg-green-400 w-36 h-10 text-white text-sm rounded-md flex justify-between content-center p-2' onClick={()=>
             {
               setNoteId()
               isEditBtnClicked()
@@ -30,7 +30,7 @@ const NoteCard = ({title, content, isEditBtnClicked, isDeleteBtnClicked, setNote
               isEditModalClicked()
 
             }} >Edit Note <LuPencilLine className='flex my-1 mx-2' /> </button>
-            <button type="button" className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white rounded-md flex justify-center content-center p-2'onClick={()=>{isDeleteBtnClicked()
+            <button type="button" className='bg-red-600 hover:bg-red-400 w-36 h-10 text-white text-sm rounded-md flex justify-between content-center p-2'onClick={()=>{isDeleteBtnClicked()
               setNoteId()
               isDeleteModalClicked()
               setSelectedNote()
