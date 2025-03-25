@@ -129,7 +129,7 @@ To run this project, you will need to add the following environment variables to
 
 ## Features
 
-- Live previews
+- [Live preview](https://note-app-frontend-drab.vercel.app)
 - Fullscreen mode
 - Responsive UI portable across platforms
 
