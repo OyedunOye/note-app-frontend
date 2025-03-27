@@ -1,19 +1,25 @@
 import logo from '../assets/note-app-logo.png'
 import { LuSendHorizontal } from "react-icons/lu";
 import { NotesContainer } from '../components/index';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { getUserDetailsFromToken, toasterAlert } from '../utils';
 import { createANewUserNote } from '../services/auth.service';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const LandingPage = () => {
 
+  const navigate = useNavigate()
+
   const token = localStorage.getItem("noteToken");
   const user = getUserDetailsFromToken(token).firstName;
+  const sessionExpCheck = new Date(getUserDetailsFromToken(token).exp * 1000) 
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+  console.log(sessionExpCheck)
+  
 
   const clearForm = () => {
     setContent("")
@@ -47,6 +53,18 @@ const LandingPage = () => {
     setIsLoggingOut(true)
   }
 
+  const minutes_ms = 60000
+  useEffect(()=>{
+    if (user){
+    const interval = setInterval(() =>{
+      if(token !==null && sessionExpCheck < new Date()) {
+        toasterAlert('Session expired, please login again')
+        handleClearToken()
+        navigate("/login")
+      }
+    }, minutes_ms)
+    return () => clearInterval(interval) }
+  }, [])
 
   return (
     <>
