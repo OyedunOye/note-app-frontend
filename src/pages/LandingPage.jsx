@@ -57,8 +57,6 @@ const LandingPage = () => {
   useEffect(()=>{
     if (user){
     const interval = setInterval(() =>{
-      console.log("a minute has passed")
-      console.log(token)
       if(token !==null && sessionExpCheck < new Date()) {
         toasterAlert('Session expired, please login again')
         handleClearToken()
